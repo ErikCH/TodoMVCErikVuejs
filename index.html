@@ -19,12 +19,16 @@
 			<section class="main">
 				<ul class="todo-list">
 					<li v-for="todo in todos"
-						class="todo">
+						:class="{editing: todo == editedTodo}">
 						<div class="view">
 								<input class="toggle" type="checkbox" v-model="todo.completed" />
-								<label>{{ todo.title }}</label>
+								<label @dblclick="editTodo(todo)">{{ todo.title }}</label>
 								<button class="destroy" @click="removeTodo(todo)"></button>
 						</div>
+						<input class="edit" type="text"
+							v-model="todo.title"
+							@blur="doneEdit(todo)"
+							@keyup.enter="doneEdit(todo)" />
 
 					</li>
 				</ul>
