@@ -5,12 +5,36 @@ new Vue({
     return {
       newTodo: '',
       todos:[],
-      editedTodo:null
+      editedTodo:null,
+      visibility: 'all'
 
     }
   },
   created () {
       this.todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  },
+  computed: {
+    filteredTodos() {
+        //all
+        //completed
+        //active
+        if(this.visibility === 'all') {
+          return this.todos;
+        }
+        else if ( this.visibility === 'active') {
+            return this.todos.filter(function(todo) {
+                return !todo.completed;
+            });
+        }
+        else {
+          //completed
+          return this.todos.filter(function(todo) {
+              return todo.completed;
+          })
+
+        }
+    }
+
   },
   methods: {
     addTodo() {
